@@ -3,5 +3,11 @@
 @import "variables";
 @import "./components/header.scss";
 @import "./components/main-page.scss";
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Montserrat:wght@300;400;500&display=swap');
+
+* {
+  max-width: 100%;
+  font-family: $font-lato;
+}
 
 

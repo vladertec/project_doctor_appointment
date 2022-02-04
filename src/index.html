@@ -8,6 +8,46 @@
     <link rel="stylesheet" href="./css/styles.min.css">
 </head>
 <body>
+
+<header>
+    <section class="section-menu">
+        <div class="section-menu__logo"></div>
+        <h2 class="section-menu__title">Your health - our care</h2>
+        <button class="section-menu__btn">Sign in</button>
+    </section>
+</header>
+
+<main>
+    <section class="section-content">
+        <form class="section-content__filter filter-form">
+
+            <input class="filter-form__text" type="text" name="search" id="search" placeholder="search" size="20">
+
+            <select class="filter-form__select" name="status" id="status">
+                <option value="all">all</option>
+                <option value="all">open</option>
+                <option value="all">done</option>
+            </select>
+
+            <select class="filter-form__select" name="urgency" id="urgency">
+                <option value="all">all</option>
+                <option value="all">high</option>
+                <option value="all">normal</option>
+                <option value="all">low</option>
+            </select>
+
+            <button class="filter-form__btn-search">Search</button>
+
+        </form>
+
+
+        <div class="section-content__cards">
+
+        </div>
+    </section>
+
+</main>
+
     <script src="./js/scripts.min.js"></script>
 </body>
 </html>

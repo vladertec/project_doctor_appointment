@@ -1,0 +1,6 @@
+.idea
+.vscode
+.PS_Stor
+*.iml
+*.xml
+node_modules
