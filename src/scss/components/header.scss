@@ -1,5 +1,8 @@
+
 .section-menu {
-  @include flex-container;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   height: 120px;
   background-color: darkseagreen;
   padding-left: 5%;
@@ -27,8 +30,6 @@
     font-size: 18px;
   }
 }
-
-
 
 
 
