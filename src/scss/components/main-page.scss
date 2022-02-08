@@ -2,9 +2,9 @@
   background-color: lightgoldenrodyellow;
   height: 800px;
 
-  &__cards {
-    //в этот блок будут вставляться карточки
-  }
+  // &__cards {
+  //   //в этот блок будут вставляться карточки
+  // }
 }
 
 
@@ -24,6 +24,18 @@
   }
 }
 
+//временные стили для теста функционала
+#cardsWrap {
+  margin-top: 30px;
+  margin-left: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
 
+#deleteCardBtn {
+  margin-left: 85%;
+  margin-bottom: 20px;
+}
 
 
