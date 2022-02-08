@@ -56,6 +56,9 @@ class Visit {
         })
     }
     deleteCard() {
+        //удаляю карточку с срвера
+        //проверяю удалилась ли она с сервера
+        //удаляем её с экрана
         this.deleteCard = document.getElementById('deleteCardBtn');
         this.deleteCard.addEventListener('click', () => {
             document.getElementById(`${this.id}`).style.display = "none"
