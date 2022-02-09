@@ -138,7 +138,7 @@ class VisitTherapist extends Visit {
 
 
 
-const newVisitTest = new VisitTherapist({
+/*const newVisitTest = new VisitTherapist({
     name: 'Джон',
     surname: 'Смит',
     doctor: 'Терапевт',
@@ -157,7 +157,7 @@ const newVisitTest2 = new VisitCardiologist({
     shortVisitInfo: 'Помогите мне!!!',
     id: 3
 })
-newVisitTest2.render()
+newVisitTest2.render()*/
 
 
 // Общие:
