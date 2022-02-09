@@ -12,16 +12,25 @@
   &__logo {
     width: 65px;
     height: 65px;
-    background-color: red;
+    background-image: url('../img/hospital.png');
   }
 
   &__title {
     font-size: 20px;
     text-transform: uppercase;
-    margin-left: 4%;
   }
 
   &__btn {
+    margin-left: 35px;
+    padding: 12px 20px;
+    cursor: pointer;
+    background-color: cadetblue;
+    border-radius: 15px;
+    font-size: 18px;
+  }
+
+  &__btn-create-visit{
+    display: none;
     margin-left: 35px;
     padding: 12px 20px;
     cursor: pointer;

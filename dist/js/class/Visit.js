@@ -94,3 +94,93 @@ export default class Visit {
         })
     }
 }
+
+
+class VisitCardiologist extends Visit {
+    constructor(name, surname, doctor, urgency, shortVisitInfo, id, pressure, BMI, heartDiseases, age) {
+        super(name, surname, doctor, urgency, shortVisitInfo, id);
+        this.pressure = pressure;
+        this.BMI = BMI;
+        this.heartDiseases = heartDiseases;
+        this.age = age;
+    }
+    showMoreCardiologist() {
+        this.showMoreBtn = document.getElementById('moreDetailsVisitBtn')
+        this.showMoreBtn.addEventListener('click', (event) => {
+            if (this.fullVisitInfo === null) {
+                event.target.style.display = "none"
+                this.fullVisitInfo = `
+                <p class="card-text">обычное давление: ${this.pressure}</p>
+                <p class="card-text">индекс массы тела: ${this.BMI}</p>
+                <p class="card-text">перенесенные заболевания сердечно-сосудистой системы: ${this.heartDiseases}</p>
+                <p class="card-text">возраст: ${this.age}</p>
+                `
+                let card = document.getElementById(`${this.id}`);
+                card.querySelector(".card-body").insertAdjacentHTML('beforeEnd', this.fullVisitInfo)
+            }
+        })
+    }
+}
+
+class VisitDentist extends Visit {
+    constructor(name, surname, doctor, urgency, shortVisitInfo, lastVisitDate) {
+        super(name, surname, doctor, urgency, shortVisitInfo);
+        this.lastVisitDate = lastVisitDate;
+    }
+}
+
+class VisitTherapist extends Visit {
+    constructor(name, surname, doctor, urgency, shortVisitInfo, age) {
+        super(name, surname, doctor, urgency, shortVisitInfo);
+        this.age = age;
+    }
+}
+
+
+
+const newVisitTest = new VisitTherapist({
+    name: 'Джон',
+    surname: 'Смит',
+    doctor: 'Терапевт',
+    urgency: 'Обычная',
+    shortVisitInfo: 'Мне нужен врач',
+    id: 2
+})
+newVisitTest.render()
+
+
+const newVisitTest2 = new VisitCardiologist({
+    name: 'Сара',
+    surname: 'Паркер',
+    doctor: 'Кардиолог',
+    urgency: 'Неотложная',
+    shortVisitInfo: 'Помогите мне!!!',
+    id: 3
+})
+newVisitTest2.render()
+
+
+// Общие:
+// - цель визита (purpose)
+// - краткое описание визита (shortVisitInfo)
+// - выпадающее поле - срочность (обычная, приоритетная, неотложная) (urgency)
+// - ФИО  (name, surname)
+
+// Если выбрана опция **Кардиолог**, дополнительно появляются следующие поля для ввода информации:
+//   - обычное давление (pressure)
+//   - индекс массы тела (BMI)
+//   - перенесенные заболевания сердечно-сосудистой системы (heartDiseases)
+//   - возраст (age)
+
+// **Стоматолог**, дополнительно необходимо заполнить:
+//   - дата последнего посещения (lastVisitDate)
+
+// - Если выбрана опция Терапевт, дополнительно необходимо заполнить:
+//   - возраст (age)
+
+// В ней должны присутствовать:
+//  - ФИО, которые были введены при создании карточки
+//  - Врач, к которому человек записан на прием
+//  - Кнопка `Показать больше`. По клику на нее карточка расширяется, и появляется остальная информация, которая была введена при создании визита
+//  - Кнопка `Редактировать`. При нажатии на нее, вместо текстового содержимого карточки появляется форма, где можно отредактировать введенные поля. Такая же, как в модальном окне при создании карточки
+//  - Иконка с крестиком в верхнем правом углу, при нажатии на которую карточка будет удалена
