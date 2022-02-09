@@ -51,35 +51,6 @@
   padding-right: 30%;
 }
 
-.card {
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  padding: 12px;
-  border-radius: 4px;
-  border: 1px solid rgba(34, 60, 80, 0.2);
-  box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
-  margin: 10px;
-  position: relative;
-  font-family: sans-serif;
-}
-
-.card h3 {
-  width: 100%;
-  text-align: center;
-  font-size: 22px;
-  line-height: 27px;
-  margin-top: 5px;
-  margin-bottom: 20px;
-}
-
-.card p {
-  color: gray;
-}
-
-
-/*
 //временные стили для теста функционала
 #cardsWrap {
   margin-top: 30px;
@@ -92,6 +63,6 @@
 #deleteCardBtn {
   margin-left: 85%;
   margin-bottom: 20px;
-}*/
+}
 
 
