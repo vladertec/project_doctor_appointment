@@ -1,5 +1,6 @@
-export default class Visit {
-    constructor({name, surname, doctor, urgency, shortVisitInfo, id}) {
+//основная карточка визита
+class Visit {
+    constructor({ name, surname, doctor, urgency, shortVisitInfo, id, ...rest }) {
         this.name = name;
         this.surname = surname;
         this.doctor = doctor;
@@ -11,68 +12,68 @@ export default class Visit {
         this.showMoreBtn = null;
         this.deleteCardBtn = null;
         this.editBtn = null;
+        this.otherParameters = rest;
     }
-
     render() {
         this.createCard();
         this.addtoPage();
-        this.showMore();
+        this.showMore(this.otherParameters, this.id);
         this.deleteCard();
         this.editCard()
     }
-
     createCard() {
         this.element = `
-        <div class="card border-success" style="width: 21rem;" id= "${this.id}">
+        <div class="card border-success" style="width: 23rem;" id= "${this.id}">
             <div class="card-body " >
                 <button id="deleteCardBtn" type="button" class="btn-close" aria-label="Close"></button>
                 <p class="card-text">ФИО: ${this.name} ${this.surname}</p>
                 <p class="card-text">Врач: ${this.doctor}</p>
+                <div class = "btn-wrap">
                 <a href="#" class="btn btn-success" id="moreDetailsVisitBtn">Показать больше</a>
                 <button type="button" class="btn btn-secondary" id="editBtn">Редактировать</button>
+                </div>
             </div>
         </div>`
 
     }
-
     addtoPage() {
-        document.querySelector('.section-content__cards').insertAdjacentHTML('afterbegin', this.element)
+        document.getElementById('cardsWrap').insertAdjacentHTML('afterbegin', this.element)
     }
-
     showMore() {
         this.showMoreBtn = document.getElementById('moreDetailsVisitBtn')
-        this.editBtn = document.getElementById('editBtn')
         this.showMoreBtn.addEventListener('click', (event) => {
             if (this.fullVisitInfo === null) {
-                this.editBtn.style.display = "none"
                 event.target.style.display = "none"
                 this.fullVisitInfo = `
                 <p class="card-text">Срочность: ${this.urgency}</p>
                 <p class="card-text">Краткое описание визита: ${this.shortVisitInfo}</p>
                 `
                 let card = document.getElementById(`${this.id}`);
-                card.querySelector(".card-body").insertAdjacentHTML('beforeEnd', this.fullVisitInfo);
+                card.querySelector(".btn-wrap").insertAdjacentHTML('beforeBegin', this.fullVisitInfo);
             }
         })
     }
-
     deleteCard() {
-        //удаляю карточку с срвера
+        //удаляю карточку с сервера
+        // try catch
         //проверяю удалилась ли она с сервера
         //удаляем её с экрана
         this.deleteCard = document.getElementById('deleteCardBtn');
         this.deleteCard.addEventListener('click', () => {
+            let confirmDeleteCard = alert("Точно?")
             document.getElementById(`${this.id}`).style.display = "none"
         })
     }
-
     editCard() {
         this.editBtn = document.getElementById('editBtn');
         this.editBtn.addEventListener('click', async (event) => {
             event.target.style.display = "none"
 
             //здесь будет вставлено модальное окно для ввода инфы, его мы импортируем из файла Алисы. html только для визуализации.
-
+            // let card = new Modal()
+            // card.
+            // отрисовать модалку при помощи импортированного экземпляра класса, 
+            //и передать в него данные которые получила в этой карточке и заполнить ими (input.value)
             document.getElementById(`${this.id}`).innerHTML = `
             <div class="input-group input-group-sm mb-3">
                 <span class="input-group-text" id="inputGroup-sizing-sm">ФИО:</span>
@@ -95,92 +96,117 @@ export default class Visit {
     }
 }
 
-
+//карточка визита к Кардиологу
 class VisitCardiologist extends Visit {
-    constructor(name, surname, doctor, urgency, shortVisitInfo, id, pressure, BMI, heartDiseases, age) {
+    constructor(name, surname, doctor, urgency, shortVisitInfo, id) {
         super(name, surname, doctor, urgency, shortVisitInfo, id);
-        this.pressure = pressure;
-        this.BMI = BMI;
-        this.heartDiseases = heartDiseases;
-        this.age = age;
+        this.fullVisitInfoCardiologist = null;
     }
     showMoreCardiologist() {
-        this.showMoreBtn = document.getElementById('moreDetailsVisitBtn')
-        this.showMoreBtn.addEventListener('click', (event) => {
-            if (this.fullVisitInfo === null) {
-                event.target.style.display = "none"
-                this.fullVisitInfo = `
-                <p class="card-text">обычное давление: ${this.pressure}</p>
-                <p class="card-text">индекс массы тела: ${this.BMI}</p>
-                <p class="card-text">перенесенные заболевания сердечно-сосудистой системы: ${this.heartDiseases}</p>
-                <p class="card-text">возраст: ${this.age}</p>
+        this.showMoreBtn.addEventListener('click', () => {
+            this.fullVisitInfoCardiologist = `
+                <p class="card-text">Обычное давление: ${this.otherParameters.pressure}</p>
+                <p class="card-text">Индекс массы тела: ${this.otherParameters.BMI}</p>
+                <p class="card-text">Перенесенные заболевания сердечно-сосудистой системы: ${this.otherParameters.heartDiseases}</p>
+                <p class="card-text">Возраст: ${this.otherParameters.age}</p>
                 `
-                let card = document.getElementById(`${this.id}`);
-                card.querySelector(".card-body").insertAdjacentHTML('beforeEnd', this.fullVisitInfo)
-            }
+            let card = document.getElementById(this.id);
+            console.log(card);
+            card.querySelector(".btn-wrap").insertAdjacentHTML('beforeBegin', this.fullVisitInfoCardiologist)
+        })
+
+    }
+
+}
+
+//карточка визита к Терапевту
+class VisitTherapist extends Visit {
+    constructor(name, surname, doctor, urgency, shortVisitInfo, id) {
+        super(name, surname, doctor, urgency, shortVisitInfo, id);
+        this.fullVisitInfoCardiologist = null;
+    }
+    showMoreTherapist() {
+        this.showMoreBtn.addEventListener('click', () => {
+            this.fullVisitInfoTherapist = `
+            <p class="card-text">Возраст: ${this.otherParameters.age}</p>
+            `
+            let card = document.getElementById(this.id);
+            card.querySelector(".btn-wrap").insertAdjacentHTML('beforeBegin', this.fullVisitInfoTherapist)
         })
     }
 }
 
+
+//карточка визита к Стоматологу
 class VisitDentist extends Visit {
-    constructor(name, surname, doctor, urgency, shortVisitInfo, lastVisitDate) {
-        super(name, surname, doctor, urgency, shortVisitInfo);
-        this.lastVisitDate = lastVisitDate;
+    constructor(name, surname, doctor, urgency, shortVisitInfo, id) {
+        super(name, surname, doctor, urgency, shortVisitInfo, id);
+        this.fullVisitInfoDentist = null;
+    }
+    showMoreDentist() {
+        this.showMoreBtn.addEventListener('click', () => {
+            this.fullVisitInfoDentist = `
+            <p class="card-text">Дата последнего посещения: ${this.otherParameters.lastVisitDate}</p>
+            `
+            let card = document.getElementById(this.id);
+            card.querySelector(".btn-wrap").insertAdjacentHTML('beforeBegin', this.fullVisitInfoDentist)
+        })
     }
 }
 
-class VisitTherapist extends Visit {
-    constructor(name, surname, doctor, urgency, shortVisitInfo, age) {
-        super(name, surname, doctor, urgency, shortVisitInfo);
-        this.age = age;
-    }
+//функция, которая перебирает массив (будет получен с сервера), определяет к какому врачу визит, создаёт экзмепляр нужного класса
+function chooseADoctor(arrayOfVisits) {
+    arrayOfVisits.forEach(newVisit => {
+        console.log(newVisit);
+        if (newVisit.doctor === "Кардиолог") {
+            const newVisitCardiologist = new VisitCardiologist(newVisit);
+            newVisitCardiologist.render()
+            newVisitCardiologist.showMoreCardiologist()
+        } if (newVisit.doctor === "Терапевт") {
+            const newVisitTherapist = new VisitTherapist(newVisit)
+            newVisitTherapist.render()
+            newVisitTherapist.showMoreTherapist()
+        } if (newVisit.doctor === "Стоматолог") {
+            const newVisitDentist = new VisitDentist(newVisit)
+            newVisitDentist.render()
+            newVisitDentist.showMoreDentist()
+        }
+    });
+
 }
 
+//массив, придуманный для проверки функционала (по факту получаем его с сервера)
+const arrayOfVisits = [
+    {
+        name: 'Сара',
+        surname: 'Паркер',
+        doctor: 'Кардиолог',
+        urgency: 'Неотложная',
+        shortVisitInfo: 'Помогите мне!!!',
+        id: 3,
+        pressure: '160/80',
+        BMI: 6.21,
+        heartDiseases: "Инфаркт",
+        age: 24
+    },
+    {
+        name: 'Вася',
+        surname: 'Петров',
+        doctor: 'Терапевт',
+        urgency: 'Обычная',
+        shortVisitInfo: 'Мне просто так на осмотр',
+        id: 4,
+        age: 36
+    },
+    {
+        name: 'Джон',
+        surname: 'Смит',
+        doctor: 'Стоматолог',
+        urgency: 'Обычная',
+        shortVisitInfo: 'Мне нужен врач',
+        id: 2,
+        lastVisitDate: "25 августа"
+    }
+]
 
-
-/*const newVisitTest = new VisitTherapist({
-    name: 'Джон',
-    surname: 'Смит',
-    doctor: 'Терапевт',
-    urgency: 'Обычная',
-    shortVisitInfo: 'Мне нужен врач',
-    id: 2
-})
-newVisitTest.render()
-
-
-const newVisitTest2 = new VisitCardiologist({
-    name: 'Сара',
-    surname: 'Паркер',
-    doctor: 'Кардиолог',
-    urgency: 'Неотложная',
-    shortVisitInfo: 'Помогите мне!!!',
-    id: 3
-})
-newVisitTest2.render()*/
-
-
-// Общие:
-// - цель визита (purpose)
-// - краткое описание визита (shortVisitInfo)
-// - выпадающее поле - срочность (обычная, приоритетная, неотложная) (urgency)
-// - ФИО  (name, surname)
-
-// Если выбрана опция **Кардиолог**, дополнительно появляются следующие поля для ввода информации:
-//   - обычное давление (pressure)
-//   - индекс массы тела (BMI)
-//   - перенесенные заболевания сердечно-сосудистой системы (heartDiseases)
-//   - возраст (age)
-
-// **Стоматолог**, дополнительно необходимо заполнить:
-//   - дата последнего посещения (lastVisitDate)
-
-// - Если выбрана опция Терапевт, дополнительно необходимо заполнить:
-//   - возраст (age)
-
-// В ней должны присутствовать:
-//  - ФИО, которые были введены при создании карточки
-//  - Врач, к которому человек записан на прием
-//  - Кнопка `Показать больше`. По клику на нее карточка расширяется, и появляется остальная информация, которая была введена при создании визита
-//  - Кнопка `Редактировать`. При нажатии на нее, вместо текстового содержимого карточки появляется форма, где можно отредактировать введенные поля. Такая же, как в модальном окне при создании карточки
-//  - Иконка с крестиком в верхнем правом углу, при нажатии на которую карточка будет удалена
+chooseADoctor(arrayOfVisits)
