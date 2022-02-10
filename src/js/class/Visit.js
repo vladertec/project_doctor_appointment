@@ -1,3 +1,7 @@
+import deleteUserCard from "../api/deleteUserCard.js"
+
+
+
 //основная карточка визита
 class Visit {
     constructor({ name, surname, doctor, urgency, shortVisitInfo, id, ...rest }) {
@@ -60,8 +64,11 @@ class Visit {
         //удаляем её с экрана
         this.deleteCard = document.getElementById('deleteCardBtn');
         this.deleteCard.addEventListener('click', () => {
-            let confirmDeleteCard = alert("Точно?")
-            document.getElementById(`${this.id}`).style.display = "none"
+            const token = localStorage.getItem('token');
+            const status = deleteUserCard(this.id, token) //сработает ли async
+            if (status === 200) {
+                document.getElementById(`${this.id}`).style.display = "none"
+            }
         })
     }
     editCard() {
@@ -155,58 +162,59 @@ class VisitDentist extends Visit {
 }
 
 //функция, которая перебирает массив (будет получен с сервера), определяет к какому врачу визит, создаёт экзмепляр нужного класса
-function chooseADoctor(arrayOfVisits) {
-    arrayOfVisits.forEach(newVisit => {
-        console.log(newVisit);
-        if (newVisit.doctor === "Кардиолог") {
-            const newVisitCardiologist = new VisitCardiologist(newVisit);
-            newVisitCardiologist.render()
-            newVisitCardiologist.showMoreCardiologist()
-        } if (newVisit.doctor === "Терапевт") {
-            const newVisitTherapist = new VisitTherapist(newVisit)
-            newVisitTherapist.render()
-            newVisitTherapist.showMoreTherapist()
-        } if (newVisit.doctor === "Стоматолог") {
-            const newVisitDentist = new VisitDentist(newVisit)
-            newVisitDentist.render()
-            newVisitDentist.showMoreDentist()
-        }
-    });
+// function chooseADoctor(arrayOfVisits) {
+//     arrayOfVisits.forEach(newVisit => {
+//         console.log(newVisit);
+//         if (newVisit.doctor === "Кардиолог") {
+//             const newVisitCardiologist = new VisitCardiologist(newVisit);
+//             newVisitCardiologist.render()
+//             newVisitCardiologist.showMoreCardiologist()
+//         } if (newVisit.doctor === "Терапевт") {
+//             const newVisitTherapist = new VisitTherapist(newVisit)
+//             newVisitTherapist.render()
+//             newVisitTherapist.showMoreTherapist()
+//         } if (newVisit.doctor === "Стоматолог") {
+//             const newVisitDentist = new VisitDentist(newVisit)
+//             newVisitDentist.render()
+//             newVisitDentist.showMoreDentist()
+//         }
+//     });
 
-}
+// }
 
 //массив, придуманный для проверки функционала (по факту получаем его с сервера)
-const arrayOfVisits = [
-    {
-        name: 'Сара',
-        surname: 'Паркер',
-        doctor: 'Кардиолог',
-        urgency: 'Неотложная',
-        shortVisitInfo: 'Помогите мне!!!',
-        id: 3,
-        pressure: '160/80',
-        BMI: 6.21,
-        heartDiseases: "Инфаркт",
-        age: 24
-    },
-    {
-        name: 'Вася',
-        surname: 'Петров',
-        doctor: 'Терапевт',
-        urgency: 'Обычная',
-        shortVisitInfo: 'Мне просто так на осмотр',
-        id: 4,
-        age: 36
-    },
-    {
-        name: 'Джон',
-        surname: 'Смит',
-        doctor: 'Стоматолог',
-        urgency: 'Обычная',
-        shortVisitInfo: 'Мне нужен врач',
-        id: 2,
-        lastVisitDate: "25 августа"
-    }
-]
+// const arrayOfVisits = [
+//     {
+//         name: 'Сара',
+//         surname: 'Паркер',
+//         doctor: 'Кардиолог',
+//         urgency: 'Неотложная',
+//         shortVisitInfo: 'Помогите мне!!!',
+//         id: 3,
+//         pressure: '160/80',
+//         BMI: 6.21,
+//         heartDiseases: "Инфаркт",
+//         age: 24
+//     },
+//     {
+//         name: 'Вася',
+//         surname: 'Петров',
+//         doctor: 'Терапевт',
+//         urgency: 'Обычная',
+//         shortVisitInfo: 'Мне просто так на осмотр',
+//         id: 4,
+//         age: 36
+//     },
+//     {
+//         name: 'Джон',
+//         surname: 'Смит',
+//         doctor: 'Стоматолог',
+//         urgency: 'Обычная',
+//         shortVisitInfo: 'Мне нужен врач',
+//         id: 2,
+//         lastVisitDate: "25 августа"
+//     }
+// ]
 
-chooseADoctor(arrayOfVisits)
+
+export { VisitCardiologist, VisitTherapist, VisitDentist }
