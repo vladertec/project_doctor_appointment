@@ -1,21 +1,21 @@
-import Visit from "../class/Visit.js";
-import getUserDataToSend from "./getUserDataToSend.js";
-
+import distributionCardsByDoctor from "./distributionCardsByDoctor.js"
 
 export default async function renderInformation(event, data, status) {
     if (status === 200) {
         event.target.style.display = 'none';
-        document.querySelector('.section-menu__btn').textContent = 'Create visit';
-        data.forEach(elem => {
-            const post = new Visit(elem);
-            post.render('.section-content__cards');
-        })
 
-        document.querySelector('.section-menu__btn').addEventListener('click', () => {
-            document.querySelector('.input-form').classList.toggle('show');
-            document.querySelector('.input-form').addEventListener('submit', getUserDataToSend);
-        })
+        document.querySelector('.section-menu__btn').style.display = 'none';
+        document.querySelector('.section-menu__btn-create-visit').style.display = 'block';
+
+        if (data.length === 0) {
+            document.querySelector('.no-items').style.display = 'block';
+        } else {
+            distributionCardsByDoctor(data);
+        }
+
     } else {
-        console.log('error');
+        throw new Error('Problem with data');
     }
 }
+
+
