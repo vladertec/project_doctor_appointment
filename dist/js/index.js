@@ -13,9 +13,18 @@ document.querySelector('.section-menu__btn').addEventListener('click', showModal
 document.querySelector('.form').addEventListener('submit', getAuthorizationData);
 
 document.querySelector('.section-menu__btn-create-visit').addEventListener('click', () => {
+<<<<<<< HEAD
     // document.querySelector('.input-form').classList.toggle('show');
     // document.querySelector('.input-form').addEventListener('submit', getUserDataToSend);
     return
 })
 
+=======
+/*    document.querySelector('.input-form').classList.toggle('show');
+    document.querySelector('.input-form').addEventListener('submit', getUserDataToSend);*/
+})
+
+/*modalWindowDisplay();*/
+
+>>>>>>> 609af4372fcaee76fe8fcef51932dc796e665041
 

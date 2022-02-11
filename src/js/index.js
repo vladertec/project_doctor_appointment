@@ -17,5 +17,4 @@ document.querySelector('.section-menu__btn-create-visit').addEventListener('clic
     return
 })
 
-modalWindowDisplay() 
 
