@@ -3,6 +3,7 @@ import getUserToken from "./api/getUserToken.js";
 import getAllUserCards from "./api/getAllUserCards.js";
 import renderInformation from "./codeActions/renderInformation.js";
 import filterFormInputsValues from "./codeActions/filterFormInputsValues.js";
+import modalWindowDisplay from "./functions/modalWindowDisplay.js";
 
 
 document.querySelector('.section-menu__btn').addEventListener('click', showModal);
@@ -26,5 +27,7 @@ async function getInputsInformation(event) {
         throw new Error('Without token');
     }
 }
+
+modalWindowDisplay()
 
 
