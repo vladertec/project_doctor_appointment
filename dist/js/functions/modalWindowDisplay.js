@@ -3,9 +3,8 @@ import createModalByLoadPage from "./createModalFunctions.js";
 
 
 
-/*
 export default function modalWindowDisplay(){
+    this.createModalByLoadPage()
     let modal = new Modal
     modal.render()
 }
-*/
