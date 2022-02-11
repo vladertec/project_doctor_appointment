@@ -4,7 +4,7 @@ import createModalByLoadPage from "./createModalFunctions.js";
 
 
 export default function modalWindowDisplay(){
-    createModalByLoadPage()
+    this.createModalByLoadPage()
     let modal = new Modal
     modal.render()
 }
