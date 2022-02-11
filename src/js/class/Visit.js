@@ -1,10 +1,9 @@
 import deleteUserCard from "../api/deleteUserCard.js"
 
 
-
 //основная карточка визита
 class Visit {
-    constructor({ name, surname, doctor, urgency, shortVisitInfo, id, ...rest }) {
+    constructor({name, surname, doctor, urgency, shortVisitInfo, id, ...rest}) {
         this.name = name;
         this.surname = surname;
         this.doctor = doctor;
@@ -18,6 +17,7 @@ class Visit {
         this.editBtn = null;
         this.otherParameters = rest;
     }
+
     render() {
         this.createCard();
         this.addtoPage();
@@ -25,6 +25,7 @@ class Visit {
         this.deleteCard();
         this.editCard()
     }
+
     createCard() {
         this.element = `
         <div class="card border-success" style="width: 23rem;" id= "${this.id}">
@@ -40,9 +41,11 @@ class Visit {
         </div>`
 
     }
+
     addtoPage() {
-        document.getElementById('cardsWrap').insertAdjacentHTML('afterbegin', this.element)
+        document.querySelector('.section-content__cards').insertAdjacentHTML('afterbegin', this.element)
     }
+
     showMore() {
         this.showMoreBtn = document.getElementById('moreDetailsVisitBtn')
         this.showMoreBtn.addEventListener('click', (event) => {
@@ -57,20 +60,18 @@ class Visit {
             }
         })
     }
-    deleteCard() {
-        //удаляю карточку с сервера
-        // try catch
-        //проверяю удалилась ли она с сервера
-        //удаляем её с экрана
+
+      deleteCard() {
         this.deleteCard = document.getElementById('deleteCardBtn');
-        this.deleteCard.addEventListener('click', () => {
+        this.deleteCard.addEventListener('click', async () => {
             const token = localStorage.getItem('token');
-            const status = deleteUserCard(this.id, token) //сработает ли async
+            const status =  await deleteUserCard(this.id, token);
             if (status === 200) {
-                document.getElementById(`${this.id}`).style.display = "none"
+                document.getElementById(`${this.id}`).style.display = "none";
             }
         })
     }
+
     editCard() {
         this.editBtn = document.getElementById('editBtn');
         this.editBtn.addEventListener('click', async (event) => {
@@ -109,6 +110,7 @@ class VisitCardiologist extends Visit {
         super(name, surname, doctor, urgency, shortVisitInfo, id);
         this.fullVisitInfoCardiologist = null;
     }
+
     showMoreCardiologist() {
         this.showMoreBtn.addEventListener('click', () => {
             this.fullVisitInfoCardiologist = `
@@ -132,6 +134,7 @@ class VisitTherapist extends Visit {
         super(name, surname, doctor, urgency, shortVisitInfo, id);
         this.fullVisitInfoCardiologist = null;
     }
+
     showMoreTherapist() {
         this.showMoreBtn.addEventListener('click', () => {
             this.fullVisitInfoTherapist = `
@@ -150,6 +153,7 @@ class VisitDentist extends Visit {
         super(name, surname, doctor, urgency, shortVisitInfo, id);
         this.fullVisitInfoDentist = null;
     }
+
     showMoreDentist() {
         this.showMoreBtn.addEventListener('click', () => {
             this.fullVisitInfoDentist = `
@@ -160,27 +164,6 @@ class VisitDentist extends Visit {
         })
     }
 }
-
-//функция, которая перебирает массив (будет получен с сервера), определяет к какому врачу визит, создаёт экзмепляр нужного класса
-// function chooseADoctor(arrayOfVisits) {
-//     arrayOfVisits.forEach(newVisit => {
-//         console.log(newVisit);
-//         if (newVisit.doctor === "Кардиолог") {
-//             const newVisitCardiologist = new VisitCardiologist(newVisit);
-//             newVisitCardiologist.render()
-//             newVisitCardiologist.showMoreCardiologist()
-//         } if (newVisit.doctor === "Терапевт") {
-//             const newVisitTherapist = new VisitTherapist(newVisit)
-//             newVisitTherapist.render()
-//             newVisitTherapist.showMoreTherapist()
-//         } if (newVisit.doctor === "Стоматолог") {
-//             const newVisitDentist = new VisitDentist(newVisit)
-//             newVisitDentist.render()
-//             newVisitDentist.showMoreDentist()
-//         }
-//     });
-
-// }
 
 //массив, придуманный для проверки функционала (по факту получаем его с сервера)
 // const arrayOfVisits = [
@@ -217,4 +200,4 @@ class VisitDentist extends Visit {
 // ]
 
 
-export { VisitCardiologist, VisitTherapist, VisitDentist }
+export {VisitCardiologist, VisitTherapist, VisitDentist}
