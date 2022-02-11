@@ -46,12 +46,11 @@ function createModalByLoadPage(){
     </select>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary modal-close-btn" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary modal-close-btn" data-bs-dismiss="modal">Закрыть</button>
+          <button type="button" class="btn btn-primary">Сохранить изменения</button>
         </div>
       </div>
     </div>
     </div>
-   
     `
     }
