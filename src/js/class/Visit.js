@@ -1,6 +1,5 @@
 import deleteUserCard from "../api/deleteUserCard.js"
 
-
 //основная карточка визита
 class Visit {
     constructor({name, surname, doctor, urgency, shortVisitInfo, id, ...rest}) {
@@ -61,11 +60,11 @@ class Visit {
         })
     }
 
-      deleteCard() {
+    deleteCard() {
         this.deleteCard = document.getElementById('deleteCardBtn');
         this.deleteCard.addEventListener('click', async () => {
             const token = localStorage.getItem('token');
-            const status =  await deleteUserCard(this.id, token);
+            const status = await deleteUserCard(this.id, token);
             if (status === 200) {
                 document.getElementById(`${this.id}`).style.display = "none";
             }

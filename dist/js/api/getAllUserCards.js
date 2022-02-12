@@ -4,6 +4,7 @@ export default async function getAllUserCards(token) {
             'Authorization': `Bearer ${token}`
         }
     })
+    console.log(data)
     return data;
 }
 

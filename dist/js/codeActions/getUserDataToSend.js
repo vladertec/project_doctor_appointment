@@ -9,9 +9,9 @@ export default async function getUserDataToSend(event) {
     const doctor = event.target.elements.doctor.value;
     const urgency = event.target.elements.urgency.value;
     const shortVisitInfo = event.target.elements.shortVisitInfo.value;
-    const token = localStorage.getItem('token');
+/*    const token = localStorage.getItem('token');
     document.querySelector('.section-content__cards').innerHTML = '';
     let userCards = await sendUserCards(name, surname, doctor, urgency, shortVisitInfo, token);
     let {data} = await getAllUserCards(token);
-    distributionCardsByDoctor(data);
+    distributionCardsByDoctor(data);*/
 }
