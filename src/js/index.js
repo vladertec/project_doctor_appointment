@@ -17,4 +17,5 @@ document.querySelector('.form').addEventListener('submit', getAuthorizationData)
 //     await showVisitModal
 // })
 
-document.getElementById("showVisitModalBtn").addEventListener ('click', showVisitModal)
+// document.getElementById("showVisitModalBtn").addEventListener ('click', showVisitModal)
+window.onload = () => showVisitModal()
