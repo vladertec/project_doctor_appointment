@@ -2,19 +2,21 @@ import deleteUserCard from "../api/deleteUserCard.js"
 
 //основная карточка визита
 class Visit {
-    constructor({name, surname, doctor, urgency, shortVisitInfo, id, ...rest}) {
+    constructor({id, body:{name, surname, doctor, urgency, shortVisitInfo, ...rest}}) {
         this.name = name;
         this.surname = surname;
         this.doctor = doctor;
         this.urgency = urgency;
         this.shortVisitInfo = shortVisitInfo;
         this.id = id;
+        this.visitStatus = "Открыт"
         this.element = null;
         this.fullVisitInfo = null;
         this.showMoreBtn = null;
         this.deleteCardBtn = null;
         this.editBtn = null;
         this.otherParameters = rest;
+        this.closeVisitBtn = null;
     }
 
     render() {
@@ -29,12 +31,14 @@ class Visit {
         this.element = `
         <div class="card border-success" style="width: 23rem;" id= "${this.id}">
             <div class="card-body " >
+            
                 <button id="deleteCardBtn" type="button" class="btn-close" aria-label="Close"></button>
+                <p class="card-text">Статус визита: ${this.visitStatus}</p>
                 <p class="card-text">ФИО: ${this.name} ${this.surname}</p>
                 <p class="card-text">Врач: ${this.doctor}</p>
                 <div class = "btn-wrap">
-                <a href="#" class="btn btn-success" id="moreDetailsVisitBtn">Показать больше</a>
-                <button type="button" class="btn btn-secondary" id="editBtn">Редактировать</button>
+                    <a href="#" class="btn btn-success" id="moreDetailsVisitBtn">Показать больше</a>
+                    <button type="button" class="btn btn-secondary" id="editBtn">Редактировать</button>
                 </div>
             </div>
         </div>`
@@ -54,8 +58,10 @@ class Visit {
                 <p class="card-text">Срочность: ${this.urgency}</p>
                 <p class="card-text">Краткое описание визита: ${this.shortVisitInfo}</p>
                 `
+                this.closeVisitBtn = `<button type="button" class="btn btn-dark" id = "closeVisitBtn">Закрыть визит</button>`
                 let card = document.getElementById(`${this.id}`);
                 card.querySelector(".btn-wrap").insertAdjacentHTML('beforeBegin', this.fullVisitInfo);
+                card.querySelector(".btn-wrap").insertAdjacentHTML('beforeEnd', this.closeVisitBtn);
             }
         })
     }
@@ -115,7 +121,7 @@ class VisitCardiologist extends Visit {
             this.fullVisitInfoCardiologist = `
                 <p class="card-text">Обычное давление: ${this.otherParameters.pressure}</p>
                 <p class="card-text">Индекс массы тела: ${this.otherParameters.BMI}</p>
-                <p class="card-text">Перенесенные заболевания сердечно-сосудистой системы: ${this.otherParameters.heartDiseases}</p>
+                <p class="card-text">Перенесенные заболевания: ${this.otherParameters.heartDiseases}</p>
                 <p class="card-text">Возраст: ${this.otherParameters.age}</p>
                 `
             let card = document.getElementById(this.id);
