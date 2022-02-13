@@ -10,6 +10,7 @@ export default async function renderInformation(event, data, status) {
         if (data.length === 0) {
             document.querySelector('.no-items').style.display = 'block';
         } else {
+            console.log(data);
             distributionCardsByDoctor(data);
         }
 
