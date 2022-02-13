@@ -9,7 +9,7 @@
 //попадает в html, но! на экран она выводится только по второму клику. Т.е. она работает только тогда, когда она уже есть 
 //на странице на момент её вызова.
 
-
+/*
 export default class CardForServer {
     constructor({name, surname, doctor, urgency, shortVisitInfo, pressure, BMI, heartDiseases, age, lastVisitDate}) {
         this.name = name;
@@ -25,6 +25,6 @@ export default class CardForServer {
         this.visitStatus = "Открыт"
 
     }
-}
+}*/
 
 

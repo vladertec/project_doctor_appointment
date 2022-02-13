@@ -1,9 +1,7 @@
-export default async function deleteUserCard(id, token) {
-  const {status} = await axios.delete(`https://ajax.test-danit.com/api/v2/cards/${id}`,
-    {
-      headers: {'Authorization': `Bearer ${token}`}
-    }
-  )
+import instance from "./instance.js";
+
+export default async function deleteUserCard(id) {
+  const {status} = await instance.delete(`cards/${id}`)
   return status;
 }
 

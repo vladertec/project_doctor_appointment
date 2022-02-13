@@ -1,4 +1,4 @@
-import CardForServer from "../class/CardforServer.js"
+/*import CardForServer from "../class/CardforServer.js"*/
 import sendUserCards from "../api/sendUserCards.js";
 import getAllUserCards from "../api/getAllUserCards.js";
 import distributionCardsByDoctor from "../codeActions/distributionCardsByDoctor.js";
@@ -132,7 +132,6 @@ export default class Modal {
 
             event.preventDefault();
             let select = document.querySelector('.modal-doctor-select');
-            const token = localStorage.getItem('token');
 
             if (select.value === "Стоматолог") {
                 let newDentistVisit = {
@@ -144,7 +143,7 @@ export default class Modal {
                     purpose: document.querySelector(".purpose-input").value,
                     lastVisitDate: document.querySelector(".last-visit-input").value
                 }
-                let userCards = await sendUserCards(newDentistVisit, token);
+                let userCards = await sendUserCards(newDentistVisit);
             } else if (select.value === "Кардиолог") {
                 let newCardiologistVisit = {
                     name: document.querySelector(".first-name-input").value,
@@ -158,7 +157,7 @@ export default class Modal {
                     heartDiseases: document.querySelector(".heart-diseases-input").value,
                     age: document.querySelector(".age-input").value
                 }
-                let userCards = await sendUserCards(newCardiologistVisit, token);
+                let userCards = await sendUserCards(newCardiologistVisit);
             } else if (select.value === "Терапевт") {
                 let newTherapistVisit = {
                     name: document.querySelector(".first-name-input").value,
@@ -169,14 +168,12 @@ export default class Modal {
                     purpose: document.querySelector(".purpose-input").value,
                     age: document.querySelector(".age-input").value
                 }
-                let userCards = await sendUserCards(newTherapistVisit, token);
+                let userCards = await sendUserCards(newTherapistVisit);
             }
 
-          /*document.querySelector('.section-content__cards').innerHTML = '';
-          let {data} = await getAllUserCards(token);
-          distributionCardsByDoctor(data);*/
-            /*    const newCardForServer = new CardForServer(newVisit)
-                console.log(newCardForServer);*/
+            document.querySelector('.section-content__cards').innerHTML = '';
+            let {data} = await getAllUserCards();
+            distributionCardsByDoctor(data);
         })
     }
 }

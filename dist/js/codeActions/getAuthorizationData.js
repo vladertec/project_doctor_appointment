@@ -10,9 +10,8 @@ export default async function getAuthorizationData(event) {
     let token = await getUserToken(email, password);
     localStorage.setItem('token', token);
     if (token) {
-        let {data, status} = await getAllUserCards(token);
+        let {data, status} = await getAllUserCards();
         renderInformation(event, data, status);
-
         document.querySelector('.filter-form').classList.toggle('flex-display-form');
         document.querySelector('.filter-form').addEventListener('submit', filterFormInputsValues)
     } else {

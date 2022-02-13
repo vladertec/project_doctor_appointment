@@ -69,8 +69,7 @@ class Visit {
     deleteCard() {
         this.deleteCard = document.getElementById('deleteCardBtn');
         this.deleteCard.addEventListener('click', async () => {
-            const token = localStorage.getItem('token');
-            const status = await deleteUserCard(this.id, token);
+            const status = await deleteUserCard(this.id);
             if (status === 200) {
                 document.getElementById(`${this.id}`).style.display = "none";
             }
