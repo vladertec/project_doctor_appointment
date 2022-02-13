@@ -1,11 +1,7 @@
-export default async function sendUserCards(body, token) {
+import instance from "./instance.js";
 
-    const {data} = await axios.post('https://ajax.test-danit.com/api/v2/cards', {body}, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    });
-    console.log(data)
+export default async function sendUserCards(body) {
+    const {data} = await instance.post('cards', {body});
     return data;
 }
 
