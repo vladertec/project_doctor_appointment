@@ -17,6 +17,7 @@ class Visit {
         this.editBtn = null;
         this.otherParameters = rest;
         this.closeVisitBtn = null;
+        this.deleteCardFromServer = null;
     }
 
     render() {
@@ -32,7 +33,7 @@ class Visit {
         <div class="card border-success" style="width: 23rem;" id= "${this.id}">
             <div class="card-body " >
             
-                <button id="deleteCardBtn" type="button" class="btn-close" aria-label="Close"></button>
+                <button id="deleteCardBtn" data-bs-toggle="modal" data-bs-target="#deleteCardModal" type="button" class="btn-close" aria-label="Close"></button>
                 <p class="card-text">Статус визита: ${this.visitStatus}</p>
                 <p class="card-text">ФИО: ${this.name} ${this.surname}</p>
                 <p class="card-text">Врач: ${this.doctor}</p>
@@ -68,12 +69,22 @@ class Visit {
 
     deleteCard() {
         this.deleteCard = document.getElementById('deleteCardBtn');
-        this.deleteCard.addEventListener('click', async () => {
+        const elemModal = document.getElementById('deleteCardModal')
+        const modal = new bootstrap.Modal( elemModal);
+        this.deleteCard.addEventListener('click', ()=>{
+            this.deleteCardFromServer = document.getElementById('deleteCardFromServer');
+            this.deleteCardFromServer.addEventListener('click', async () => {
+            console.log(this.id);
+            modal.hide()
             const status = await deleteUserCard(this.id);
             if (status === 200) {
                 document.getElementById(`${this.id}`).style.display = "none";
             }
         })
+        })
+        
+
+
     }
 
     editCard() {
@@ -168,40 +179,6 @@ class VisitDentist extends Visit {
         })
     }
 }
-
-//массив, придуманный для проверки функционала (по факту получаем его с сервера)
-// const arrayOfVisits = [
-//     {
-//         name: 'Сара',
-//         surname: 'Паркер',
-//         doctor: 'Кардиолог',
-//         urgency: 'Неотложная',
-//         shortVisitInfo: 'Помогите мне!!!',
-//         id: 3,
-//         pressure: '160/80',
-//         BMI: 6.21,
-//         heartDiseases: "Инфаркт",
-//         age: 24
-//     },
-//     {
-//         name: 'Вася',
-//         surname: 'Петров',
-//         doctor: 'Терапевт',
-//         urgency: 'Обычная',
-//         shortVisitInfo: 'Мне просто так на осмотр',
-//         id: 4,
-//         age: 36
-//     },
-//     {
-//         name: 'Джон',
-//         surname: 'Смит',
-//         doctor: 'Стоматолог',
-//         urgency: 'Обычная',
-//         shortVisitInfo: 'Мне нужен врач',
-//         id: 2,
-//         lastVisitDate: "25 августа"
-//     }
-// ]
 
 
 export {VisitCardiologist, VisitTherapist, VisitDentist}
