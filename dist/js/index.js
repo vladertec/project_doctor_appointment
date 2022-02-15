@@ -2,6 +2,8 @@ import showModal from "./codeActions/showModal.js";
 import getAuthorizationData from "./codeActions/getAuthorizationData.js";
 import showVisitModal from "./codeActions/modalWindowDisplay.js"
 
+
+
 document.querySelector('.section-menu__btn').addEventListener('click', showModal);
 
 document.querySelector('.form').addEventListener('submit', getAuthorizationData);

@@ -61,7 +61,7 @@ export default class Modal {
                 </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary modal-close-btn" data-bs-dismiss="modal">Закрыть</button>
-                <button id = "submitVisitModalBtn" type="button" class="btn btn-primary submit-btn">Сохранить изменения</button>
+                <button id = "submitVisitModalBtn" type="button" class="btn btn-success submit-btn">Сохранить изменения</button>
             </div>
       </div>
     </div>
@@ -141,7 +141,8 @@ export default class Modal {
                     urgency: document.querySelector(".modal-urgency-select").value,
                     shortVisitInfo: document.querySelector(".visit-description-input").value,
                     purpose: document.querySelector(".purpose-input").value,
-                    lastVisitDate: document.querySelector(".last-visit-input").value
+                    lastVisitDate: document.querySelector(".last-visit-input").value,
+                    visitStatus: "Открыт"
                 }
                 let userCards = await sendUserCards(newDentistVisit);
             } else if (select.value === "Кардиолог") {
@@ -155,7 +156,8 @@ export default class Modal {
                     purpose: document.querySelector(".purpose-input").value,
                     BMI: document.querySelector(".BMI-input").value,
                     heartDiseases: document.querySelector(".heart-diseases-input").value,
-                    age: document.querySelector(".age-input").value
+                    age: document.querySelector(".age-input").value,
+                    visitStatus: "Открыт"
                 }
                 let userCards = await sendUserCards(newCardiologistVisit);
             } else if (select.value === "Терапевт") {
@@ -166,7 +168,8 @@ export default class Modal {
                     urgency: document.querySelector(".modal-urgency-select").value,
                     shortVisitInfo: document.querySelector(".visit-description-input").value,
                     purpose: document.querySelector(".purpose-input").value,
-                    age: document.querySelector(".age-input").value
+                    age: document.querySelector(".age-input").value,
+                    visitStatus: "Открыт"
                 }
                 let userCards = await sendUserCards(newTherapistVisit);
             }

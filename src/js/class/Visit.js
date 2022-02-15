@@ -1,22 +1,24 @@
 import deleteUserCard from "../api/deleteUserCard.js"
+import editUserCard from "../api/editUserCard.js";
+import Modal from "./Modal.js"
 
 //основная карточка визита
 class Visit {
-    constructor({id, body:{name, surname, doctor, urgency, shortVisitInfo, ...rest}}) {
+    constructor({ id, body: { name, surname, doctor, urgency, shortVisitInfo, visitStatus, purpose, ...rest } }) {
         this.name = name;
         this.surname = surname;
         this.doctor = doctor;
         this.urgency = urgency;
         this.shortVisitInfo = shortVisitInfo;
+        this.purpose = purpose
         this.id = id;
-        this.visitStatus = "Открыт"
+        this.visitStatus = visitStatus;
         this.element = null;
         this.fullVisitInfo = null;
         this.showMoreBtn = null;
         this.deleteCardBtn = null;
         this.editBtn = null;
         this.otherParameters = rest;
-        this.closeVisitBtn = null;
         this.deleteCardFromServer = null;
     }
 
@@ -25,7 +27,8 @@ class Visit {
         this.addtoPage();
         this.showMore(this.otherParameters, this.id);
         this.deleteCard();
-        this.editCard()
+        this.editCard();
+
     }
 
     createCard() {
@@ -34,7 +37,7 @@ class Visit {
             <div class="card-body " >
             
                 <button id="deleteCardBtn" data-bs-toggle="modal" data-bs-target="#deleteCardModal" type="button" class="btn-close" aria-label="Close"></button>
-                <p class="card-text">Статус визита: ${this.visitStatus}</p>
+                <p class="card-text" id = "visitStatus">Статус визита: ${this.visitStatus}</p>
                 <p class="card-text">ФИО: ${this.name} ${this.surname}</p>
                 <p class="card-text">Врач: ${this.doctor}</p>
                 <div class = "btn-wrap">
@@ -52,12 +55,14 @@ class Visit {
 
     showMore() {
         this.showMoreBtn = document.getElementById('moreDetailsVisitBtn')
-        this.showMoreBtn.addEventListener('click', (event) => {
+        this.showMoreBtn.addEventListener('click', async (event) => {
             if (this.fullVisitInfo === null) {
                 event.target.style.display = "none"
                 this.fullVisitInfo = `
                 <p class="card-text">Срочность: ${this.urgency}</p>
                 <p class="card-text">Краткое описание визита: ${this.shortVisitInfo}</p>
+                <p class="card-text">Цель визита: ${this.purpose}</p>
+
                 `
                 this.closeVisitBtn = `<button type="button" class="btn btn-dark" id = "closeVisitBtn">Закрыть визит</button>`
                 let card = document.getElementById(`${this.id}`);
@@ -70,19 +75,18 @@ class Visit {
     deleteCard() {
         this.deleteCard = document.getElementById('deleteCardBtn');
         const elemModal = document.getElementById('deleteCardModal')
-        const modal = new bootstrap.Modal( elemModal);
-        this.deleteCard.addEventListener('click', ()=>{
+        const modal = new bootstrap.Modal(elemModal);
+        this.deleteCard.addEventListener('click', () => {
             this.deleteCardFromServer = document.getElementById('deleteCardFromServer');
             this.deleteCardFromServer.addEventListener('click', async () => {
-            console.log(this.id);
-            modal.hide()
-            const status = await deleteUserCard(this.id);
-            if (status === 200) {
-                document.getElementById(`${this.id}`).style.display = "none";
-            }
+                await modal.hide()
+                const status = await deleteUserCard(this.id);
+                if (status === 200) {
+                    document.getElementById(`${this.id}`).style.display = "none";
+                }
+            })
         })
-        })
-        
+
 
 
     }
@@ -91,32 +95,35 @@ class Visit {
         this.editBtn = document.getElementById('editBtn');
         this.editBtn.addEventListener('click', async (event) => {
             event.target.style.display = "none"
+            const editcardForm = new Modal()
+            editcardForm.render()
 
             //здесь будет вставлено модальное окно для ввода инфы, его мы импортируем из файла Алисы. html только для визуализации.
             // let card = new Modal()
             // card.
             // отрисовать модалку при помощи импортированного экземпляра класса, 
             //и передать в него данные которые получила в этой карточке и заполнить ими (input.value)
-            document.getElementById(`${this.id}`).innerHTML = `
-            <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-sm">ФИО:</span>
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-            </div>
-            <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-sm">Врач:</span>
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-            </div>
-            <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-sm">Срочность:</span>
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-            </div>
-            <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-sm">Краткое описание визита:</span>
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-            </div>
-            <a href="#" class="btn btn-success" id="moreDetailsVisitBtn">Сохранить</a>`
+            // document.getElementById(`${this.id}`).innerHTML = `
+            // <div class="input-group input-group-sm mb-3">
+            //     <span class="input-group-text" id="inputGroup-sizing-sm">ФИО:</span>
+            //     <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+            // </div>
+            // <div class="input-group input-group-sm mb-3">
+            //     <span class="input-group-text" id="inputGroup-sizing-sm">Врач:</span>
+            //     <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+            // </div>
+            // <div class="input-group input-group-sm mb-3">
+            //     <span class="input-group-text" id="inputGroup-sizing-sm">Срочность:</span>
+            //     <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+            // </div>
+            // <div class="input-group input-group-sm mb-3">
+            //     <span class="input-group-text" id="inputGroup-sizing-sm">Краткое описание визита:</span>
+            //     <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+            // </div>
+            // <a href="#" class="btn btn-success" id="moreDetailsVisitBtn">Сохранить</a>`
         })
     }
+
 }
 
 //карточка визита к Кардиологу
@@ -124,6 +131,8 @@ class VisitCardiologist extends Visit {
     constructor(name, surname, doctor, urgency, shortVisitInfo, id) {
         super(name, surname, doctor, urgency, shortVisitInfo, id);
         this.fullVisitInfoCardiologist = null;
+        this.closeVisitBtn = null;
+
     }
 
     showMoreCardiologist() {
@@ -137,10 +146,31 @@ class VisitCardiologist extends Visit {
             let card = document.getElementById(this.id);
             console.log(card);
             card.querySelector(".btn-wrap").insertAdjacentHTML('beforeBegin', this.fullVisitInfoCardiologist)
+            // this.closeVisitCardiologist()
         })
 
     }
-
+    // closeVisitCardiologist() {
+    //     this.closeVisitBtn = document.getElementById('closeVisitBtn')
+    //     console.log(closeVisitBtn);
+    //     closeVisitBtn.addEventListener('click', async () => {
+    //         const closevisit = {
+    //             body: {
+    //                 name: this.name,
+    //                 surname: this.surname,
+    //                 doctor: this.doctor,
+    //                 urgency: this.urgency,
+    //                 shortVisitInfo: this.shortVisitInfo,
+    //                 visitStatus: "Закрыт",
+    //                 age: this.age,
+    //                 pressure: this.pressure,
+    //                 BMI: this.BMI,
+    //                 heartDiseases: this.heartDiseases
+    //             }
+    //         }
+    //         await editUserCard(this.id, closevisit)
+    //     })
+    // }
 }
 
 //карточка визита к Терапевту
@@ -148,6 +178,7 @@ class VisitTherapist extends Visit {
     constructor(name, surname, doctor, urgency, shortVisitInfo, id) {
         super(name, surname, doctor, urgency, shortVisitInfo, id);
         this.fullVisitInfoCardiologist = null;
+
     }
 
     showMoreTherapist() {
@@ -167,18 +198,50 @@ class VisitDentist extends Visit {
     constructor(name, surname, doctor, urgency, shortVisitInfo, id) {
         super(name, surname, doctor, urgency, shortVisitInfo, id);
         this.fullVisitInfoDentist = null;
+        this.closeVisitBtn = null;
+        this.visitStatusItem = null;
     }
 
     showMoreDentist() {
-        this.showMoreBtn.addEventListener('click', () => {
+        this.showMoreBtn.addEventListener('click', async () => {
             this.fullVisitInfoDentist = `
             <p class="card-text">Дата последнего посещения: ${this.otherParameters.lastVisitDate}</p>
             `
             let card = document.getElementById(this.id);
             card.querySelector(".btn-wrap").insertAdjacentHTML('beforeBegin', this.fullVisitInfoDentist)
+            await this.closeVisitDentist()
+        })
+
+
+    }
+    closeVisitDentist() {
+        this.closeVisitBtn = document.getElementById('closeVisitBtn')
+        this.closeVisitBtn.addEventListener('click', async (event) => {
+           
+            this.visitStatusItem = document.getElementById('visitStatus')
+            this.visitStatus = "Закрыт"
+            console.log(this.visitStatusItem);
+            this.visitStatusItem.innerHTML = `Статус визита: Закрыт`
+            const elem = {
+                body: {
+                    name: this.name,
+                    surname: this.surname,
+                    doctor: this.doctor,
+                    urgency: this.urgency,
+                    shortVisitInfo: this.shortVisitInfo,
+                    purpose: this.purpose,
+                    lastVisitDate: this.otherParameters.lastVisitDate,
+                    visitStatus: this.visitStatus
+                },
+                id: this.id
+            }
+            console.log(elem);
+            await editUserCard(this.id, elem)
+
+
         })
     }
 }
 
 
-export {VisitCardiologist, VisitTherapist, VisitDentist}
+export { VisitCardiologist, VisitTherapist, VisitDentist }

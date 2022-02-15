@@ -6,6 +6,7 @@ export default function distributionCardsByDoctor(arrayOfVisits) {
             const newVisitCardiologist = new VisitCardiologist(newVisit);
             newVisitCardiologist.render();
             newVisitCardiologist.showMoreCardiologist();
+            
         } else if (newVisit.body.doctor === "Терапевт") {
             const newVisitTherapist = new VisitTherapist(newVisit);
             newVisitTherapist.render();
@@ -14,6 +15,7 @@ export default function distributionCardsByDoctor(arrayOfVisits) {
             const newVisitDentist = new VisitDentist(newVisit);
             newVisitDentist.render();
             newVisitDentist.showMoreDentist();
+           
         }
     });
 }
